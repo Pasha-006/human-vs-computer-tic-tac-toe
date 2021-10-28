@@ -1,0 +1,264 @@
+import random
+#Implementation of Two Player Tic-Tac-Toe game in Python.
+''' We will make the board using dictionary 
+    in which keys will be the location(i.e : top-left,mid-right,etc.)
+    and initialliy it's values will be empty space and then after every move 
+    we will change the value according to player's choice of move. '''
+
+theBoard = {'8': ' ' , '3': ' ' , '4': ' ' ,
+            '1': ' ' , '5': ' ' , '9': ' ' ,
+            '6': ' ' , '7': ' ' , '2': ' ' }
+
+board_keys = []
+
+for key in theBoard:
+    board_keys.append(key)
+
+''' We will have to print the updated board after every move in the game and 
+    thus we will make a function in which we'll define the printBoard function
+    so that we can easily print the board everytime by calling this function. '''
+
+def printBoard(board):
+    print(board['8'] + '|' + board['3'] + '|' + board['4'])
+    print('-+-+-')
+    print(board['1'] + '|' + board['5'] + '|' + board['9'])
+    print('-+-+-')
+    print(board['6'] + '|' + board['7'] + '|' + board['2'])
+
+# Now we'll write the main function which has all the gameplay functionality.
+def game():
+
+    turn = 'X'
+    count = 0
+    user=[]
+    l=0;
+    computer=[]
+    Gameover=0
+
+
+    for i in range(10):
+        printBoard(theBoard)
+        print("It's your turn," + turn + ".Move to which place? : ")
+
+        move = input()        
+        if turn=='X':
+            if theBoard[move] == ' ':
+                 theBoard[move] = turn
+                 count += 1
+                 user.append(int(move))
+                 l+=1
+            else:
+                 print("That place is already filled.\nMove to which place?")
+                 continue
+        
+            if l>=2 and l<=4:
+               number=user[l-1]
+               #print(number)
+               trailed=0
+               flag=0
+               for i in range(0,l-1):
+                   place=str(15-(number+user[i]))
+                   print(int(place))
+                   trailed=i
+                   lastchoice=computer[len(computer)-1]
+                   if int(place)<=9 and int(place)>=1:
+                       for j in range(0,len(computer)-1):
+                           winplace=str(15-(lastchoice+computer[j]))
+                           if int(winplace)<=9:
+                               if theBoard[winplace]==' ':
+                                   theBoard[winplace]='O'
+                                   Gameover=1
+                                   break
+                       if Gameover!=1:
+                           if theBoard[place]==' ':
+                              count+=1
+                              computer.append(int(place))
+                              theBoard[place]='O'
+                              flag=1
+                              break
+                       else:
+                           print(printBoard(theBoard))
+                           print('Oops!!!! .....Computer  own the Game')
+                           break
+               if Gameover==1:
+                    break
+               elif trailed==l-2 and flag==0:
+                   for iii in range(0,8):
+                       pos=random.randint(1,9)
+                       count+=1
+                       if theBoard[str(pos)]==' ':
+                            theBoard[str(pos)]='O'
+                            computer.append(pos)
+                            break
+                   
+            else:
+               pos=random.randint(1,9)
+               count+=1
+               if theBoard[str(pos)]==' ':
+                   computer.append(pos)
+                   theBoard[str(pos)]='O'
+               
+                
+
+        # Now we will check if player X or O has won,for every move after 5 moves. 
+        #If neither X nor O wins and the board is full, we'll declare the result as 'tie'.
+        if count == 9:
+            print("\nGame Over.\n")                
+            print("It's a Tie!!")
+
+        # Now we have to change the player after every move.
+              
+    
+    # Now we will ask if player wants to restart the game or not.
+    #restart = input("Do want to play Again?(y/n)")
+    #if restart == "y" or restart == "Y":  
+     #   for key in board_keys:
+      #      theBoard[key] = " "
+
+       # game()
+def game2():
+    count=0
+    turn='O'
+    user=[]
+    l=0
+    computer=[]
+    Gameover=0
+    gameplan=0
+    placedo=0
+    for jj in range(0,10):
+        #print(count)
+        printBoard(theBoard)
+        placedo=0
+        woncom=0
+        print("Its my turn Wait a moment...................")
+        if count==0 :
+            if count==0 and turn=='O':
+            
+                     theBoard['5']='O'
+                     
+                     computer.append(5)
+                     
+                    
+        
+    #its user turn
+        
+        elif count==2:
+             if user[0]==1 or user[0]==3 or user[0]==9 or user[0]==7:
+                         
+                     if user[0]+3<=9:
+                             theBoard[str(user[0]+3)]='O'
+                             computer.append(user[0]+3)
+                             
+                                      
+                     else:
+                             theBoard[str(user[0]-3)]='O'
+                             #print(str(user[0]-3))
+                             computer.append(user[0]-3)
+                     
+            
+             else:
+            
+                    if user[0]==8:
+                             corner=1
+                             theBoard['2']='O'
+                             computer.append(2)
+                    if user[0]==2:
+                             corner=1
+                             theBoard['8']='0'
+                             computer.append(2)
+                    if user[0]==6:
+                             corner=1
+                             theBoard['4']='0'
+                             computer.append(2)
+                    if user[0]==4:
+                             corner=1
+                             theBoard['6']='0'
+                             computer.append(2)
+        elif count>=4 and count<=8:
+             number=user[len(user)-1]
+             winchoice=computer[len(computer)-1]
+             #print(winchoice,'number winchoice')
+             for z in range(0,len(computer)-1):
+                 #print(computer[z])
+                 theBoard[str(15-(winchoice+computer[z]))]
+                 if 15-(winchoice+computer[z])<=9 and 15-(winchoice+computer[z])>=1:
+                     
+                     if theBoard[str(15-(winchoice+computer[z]))]==' ':
+                         theBoard[str(15-(winchoice+computer[z]))]='O'
+                         #print('Yes im heare')
+                         printBoard(theBoard)
+                         print('Computer won the game')
+                         woncom=1
+                         exit()
+             for zz in range(0,len(user)-1):
+                 #print(user)
+                 if 15-(number+user[zz])<=9 and 15-(number+user[zz])>=1:
+                     if theBoard[str(15-(number+user[zz]))]==' ':
+                         theBoard[str(15-(number+user[zz]))]='O'
+                         computer.append(15-(number+user[zz]))
+                         placedo=1
+                         print(printBoard(theBoard))
+             if placedo==0 and corner==1 and woncom==0:
+                 if user[0]==8:
+                     if user[1]==7 :
+                         theBoard['9']='O'
+                         computer.append(9)
+                     elif user[1]==9:
+                         theBoard['7']='O'
+                         computer.append(7)
+                 if user[0]==4:
+                     if user[l]==7 :
+                         theBoard['1']='O'
+                         computer.append(1)
+                     elif user[1]==1:
+                         theBoard['7']='O'
+                         computer.append(7)
+                 if user[0]==6:
+                     if user[1]==3 :
+                         theBoard['9']='O'
+                         computer.append(9)
+                     elif user[1]==9:
+                         theBoard['3']='O'
+                         computer.append(3)
+                 if user[0]==2:
+                     if user[1]==1 :
+                         theBoard['3']='O'
+                         computer.append(3)
+                     elif user[1]==3:
+                         theBoard['1']='O'
+                         computer.append(1)
+                 
+                 
+                 
+                     
+        elif count == 9:
+              print("\nGame Over.\n")                
+              print("It's a Tie!!")
+        #for i in range(0,len(computer)):
+            #print(computer[i])
+        count+=1
+        printBoard(theBoard)
+        place=input("Its your turn enter !!!!!!!!!!!!!!!!")
+        if theBoard[place]==' ':
+            theBoard[place]='X'
+            user.append(int(place))
+            count+=1
+            l+=1
+        else:
+            print("position already filled")
+            continue;
+            
+        
+    
+        
+        
+        
+
+if __name__ == "__main__":
+    print("Choose the person who want start first ? for computer type c else u")
+    ch=input()
+    
+    if ch=='u' or ch=='U':
+        game()
+    else:
+        game2()
